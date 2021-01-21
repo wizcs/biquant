@@ -1,5 +1,5 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
-BIQUANT/vscode/
-..test.ipynb
-qunatlib/conf.ini
+.vscode/
+quantlib/conf.ini
+test.ipynb
