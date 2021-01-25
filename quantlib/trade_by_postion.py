@@ -12,8 +12,8 @@ class TradeByPosition():
         config = configparser.ConfigParser()
         filename = 'quantlib/conf.ini'
         config.read(filename, encoding='utf-8')
-        self.g_api_key = config['PRIVATE_CONFIG']['g_api_key']
-        self.g_secret_key = config['PRIVATE_CONFIG']['g_secret_key']
+        self.g_api_key = config['PRIVATE_CONFIG']['n_api_key']
+        self.g_secret_key = config['PRIVATE_CONFIG']['n_secret_key']
         self.url = config['PRIVATE_CONFIG']['url']
 
         self.trade_c = TradeClient(api_key=self.g_api_key,
