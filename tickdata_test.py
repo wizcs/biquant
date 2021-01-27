@@ -13,30 +13,30 @@ class ter(threading.Thread):
     def prrt(self, see):
         print(see)
 
-    def callback(self, CEee):
-        timest = CEee.ts
+    def callback(self, candlestick):
+        timest = candlestick.ts
         lo = datetime.datetime.fromtimestamp(timest/1000)
         time_r = lo.strftime('%Y%m%d%H%M%S')
         ter.a = time_r
-        ter.b = CEee.tick.close
-        print(ter.a,'is',ter.b)
+        ter.b = candlestick.tick.close
+        print(ter.a, 'is', ter.b)
        # _thread.start_new_thread(prrt,('sdss',))
 
     def error(self, e: 'HuobiApiException'):
-        print(e.error_code + e.error_message)
+        print('这是api系统错误', e.error_code + e.error_message)
 
 
-#class sta(threading.Thread):
+# class sta(threading.Thread):
 
-#def run(self):
-market_client = MarketClient()
+# def run(self):
+market_client = MarketClient(url = 'api.huobi.be')
 iny = ter()
 market_client.sub_candlestick(
-    "eth3lusdt", CandlestickInterval.MIN1, iny.callback, iny.error)
+    "ethusdt", CandlestickInterval.MIN1, iny.callback, iny.error)
 temp = 0
 while 1:
     if (temp != iny.b):
-        print(iny.b)
+      #  print(iny.b)
         time.sleep(0.1)
     temp = iny.b
 
