@@ -32,3 +32,17 @@ mark_c.sub_trade_detail("btcusdt", callback)
 
 '''
 
+
+import pyecharts.options as opts
+from pyecharts.charts import Bar, Line
+
+bar = (
+    Bar(init_opts = opts.InitOpts(width="500px", height="300px"))
+    .add_xaxis(["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"])
+    .add_yaxis("商家A", [5, 20, 36, 10, 75, 90])
+    .add_yaxis("商家B", [15, 6, 45, 20, 35, 66])
+ #   .set_global_opts(Init_opts = opts.InitOpts(width="500px", height="300px"))
+    
+)
+
+bar.render()
