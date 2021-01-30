@@ -29,7 +29,7 @@ class ter(threading.Thread):
 # class sta(threading.Thread):
 
 # def run(self):
-market_client = MarketClient(url = 'api.huobi.be')
+market_client = MarketClient()
 iny = ter()
 market_client.sub_candlestick(
     "ethusdt", CandlestickInterval.MIN1, iny.callback, iny.error)

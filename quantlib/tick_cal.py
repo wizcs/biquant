@@ -1,6 +1,13 @@
+from datetime import datetime
+
 class TickCalculate():
-    def funcname(self, parameter_list):
-        """
-        docstring
-        """
-        pass
+
+
+    def __init__():
+        
+
+
+
+    def getstrtime():
+
+    def 
