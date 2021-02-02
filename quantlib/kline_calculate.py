@@ -2,13 +2,13 @@ import threading
 from huobi.client.market import *
 
 class KlineCalculate():
-    def __init__(self, past_kline_data, period):
-        self.period = period
+    def __init__(self, past_kline_data):
         self.pkd_obj = past_kline_data
         self.kline = []
         self.pkd_obj_data()  # 将初始化对象数据列表化以方便计算
-        self.last_time = self.kline[-2]       #倒是
-
+        self.last_time = self.kline.pop()[0]       #弹出倒数第一个kline为上一个已经确认的k线
+        self.market_c_kc = MarketClient(url = "https://api.huobi.de.com")
+        
     def get_candle(self, one_candle):
         '将一个蜡烛的信息写入列表'
         kline_one_candle = []
@@ -29,10 +29,26 @@ class KlineCalculate():
             f_k = len_pkd - i - 1
             kline_new_candle = self.get_candle(self.pkd_obj[f_k])
             self.kline.append(kline_new_candle)
-        print(self.period, '历史k线已经首次写入')
+        print('历史k线已经首次写入')
 
-    def kline_update(self, new_candle):
-        'new_candle为两个两个一组的更新'
-        kline_new_candle = get_candle(self, new_candle)
-        now_id = kline_new_candle[0]
-        if(self.last_time != now_id):
+    def kline_update_15m(self,now_time,symbol):
+        '15分钟k线向self.kline更新一组数据'
+        if(now_time != self.last_time):
+            if((now_time - self.last_time) == 900):
+                list_obj = self.market_c_kc.get_candlestick(symbol, CandlestickInterval.MIN15, 2)
+                self.kline.append(self.get_candle(list_obj[1]))  #如果新的更新时间大于上一次15分钟，则更新一个15分钟k线
+                self.last_time = list_obj[0].id
+                print('15分钟k线已经更新！当前时间戳为',self.last_time)
+            else:
+                print('果然还是有需要的时候')
+
+    def kline_update_5m(self,now_time,symbol):
+        '15分钟k线向self.kline更新一组数据'
+        if(now_time != self.last_time):
+            if((now_time - self.last_time) == 300):
+                list_obj = self.market_c_kc.get_candlestick(symbol, CandlestickInterval.MIN5, 2)
+                self.kline.append(self.get_candle(list_obj[1]))  #如果新的更新时间大于上一次5分钟，则更新一个15分钟k线
+                self.last_time = list_obj[0].id
+                print('5分钟k线已经更新！当前时间戳为',self.last_time)
+            else:
+                print('果然还是有需要的时候')
