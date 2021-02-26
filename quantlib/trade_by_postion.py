@@ -8,13 +8,7 @@ class TradeByPosition():
 
     def __init__(self, cur, used_usdt):
         'used_usdt为该次开仓所使用总usdt，应包含当前已用仓位大致'
-        import configparser
-        config = configparser.ConfigParser()
-        filename = 'quantlib/conf.ini'
-        config.read(filename, encoding='utf-8')
-        self.g_api_key = config['PRIVATE_CONFIG']['n_api_key']
-        self.g_secret_key = config['PRIVATE_CONFIG']['n_secret_key']
-        self.url = config['PRIVATE_CONFIG']['url']
+        self.readconf()
 
         self.trade_c = TradeClient(api_key=self.g_api_key,
                                    secret_key=self.g_secret_key, url=self.url)
@@ -27,6 +21,16 @@ class TradeByPosition():
         self.short_cur = cur + '1susdt'
         self.used_usdt = used_usdt
         self.check_account()
+
+    def readconf(self):
+        '读取config文件'
+        import configparser
+        config = configparser.ConfigParser()
+        filename = 'quantlib/conf.ini'
+        config.read(filename, encoding='utf-8')
+        self.g_api_key = config['PRIVATE_CONFIG']['n_api_key']
+        self.g_secret_key = config['PRIVATE_CONFIG']['n_secret_key']
+        self.url = config['PRIVATE_CONFIG']['url']
 
     def check_account(self):
         '获取最初账户信息，包括当前查询币种'
@@ -134,6 +138,7 @@ class TradeByPosition():
                                                  order_type=OrderType.SELL_MARKET, source=OrderSource.API, amount=ab_cur_s_amount, price=None)
             print('空仓已平')
         self.check_account()
+
 
 '''
 这个当前仓位计算方法傻逼了废弃！！！！！！

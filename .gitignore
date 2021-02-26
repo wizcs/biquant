@@ -3,3 +3,4 @@ quantlib/__pycache__/
 .vscode/
 quantlib/conf.ini
 test.ipynb
+lowfreq.py
