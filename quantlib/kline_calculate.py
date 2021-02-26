@@ -23,7 +23,7 @@ class KlineCalculate():
         self.last_time = self.kline_time.pop()[0]  # 弹出倒数第一个kline的id为上一个未经确认的k线
         self.kline_list = self.split_data_to_talib()  # 基础数据转为talib的DataFrame
         print(period, '历史k线已经首次写入')
-        self.calpara()
+        self.tai_cal()
 
     def readconf(self):
         import configparser
@@ -78,14 +78,18 @@ class KlineCalculate():
             self.kline_list = self.kline_list.append(               #klinelist型数据更新
                 [{'open': list_obj[1].open, 'close':list_obj[1].close, 'low':list_obj[1].low, 'high':list_obj[1].high, 'volume':list_obj[1].vol}])
             print(self.period, 'k线已在', self.last_time, '更新')
-            self.calpara()
+            self.tai_update()
         else:
             print('时间更新出错啦！！时间应该是', self.sjccy, '但现在是',
                   (list_obj[0].id - self.last_time))
 
-    def calpara(self):
+    def tai_cal(self):
         return()
         '这是全部可直接利用的该时间区间下全部数据DataFrame,包括不断更新的para,在构造方法中初始化此方法包括当前k线的各类判决条件'
+
+    def tai_update(self):
+        '技术指标数据更新'
+        return()
 
     def split_data_to_echarts(self) -> dict:
         'ecahrt柱状图需要的非更新数据'
