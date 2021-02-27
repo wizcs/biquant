@@ -22,7 +22,7 @@ class KlineCalculate():
         self.kline_time = self.pkd_obj_data(past_list_obj)  # 将初始化对象数据列表化以方便计算
         self.last_time = self.kline_time.pop()[0]  # 弹出倒数第一个kline的id为上一个未经确认的k线
         self.kline_list = self.split_data_to_talib()  # 基础数据转为talib的DataFrame
-        print(period, '历史k线已经首次写入')
+        bq.TMD(period+ ' history kline has already read')
         self.tai_cal()
 
     def readconf(self):
@@ -78,11 +78,11 @@ class KlineCalculate():
                 list_obj[1]))  # klinetime型数据更新
             self.kline_list = self.kline_list.append(  # klinelist型数据更新
                 [{'open': list_obj[1].open, 'close':list_obj[1].close, 'low':list_obj[1].low, 'high':list_obj[1].high, 'volume':list_obj[1].vol}])
-            print(self.period, 'k线已在', self.last_time, '更新')
+            bq.TMD(self.period+' kline has update in '+ str(self.last_time))
             self.tai_update()
         else:
-            print('时间更新出错啦！！时间应该是', self.sjccy, '但现在是',
-                  (list_obj[0].id - self.last_time))
+            bq.GTMD('time update wrong!!! '+str(self.sjccy)+'but now is' +
+                    str(list_obj[0].id - self.last_time))
 
     def tai_cal(self):
         return()
@@ -125,7 +125,7 @@ class KlineCalculate():
             high.append(self.kline_time[i][4])
             volume.append(self.kline_time[i][5])
 
-        kline_data = pd.DataFrame([])
+        kline_data = pd.DataFrame([],index = None)
         kline_data['open'] = open
         kline_data['close'] = close
         kline_data['low'] = low
