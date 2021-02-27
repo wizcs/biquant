@@ -4,3 +4,4 @@ quantlib/__pycache__/
 quantlib/conf.ini
 test.ipynb
 lowfreq.py
+data_m/

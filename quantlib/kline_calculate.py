@@ -2,6 +2,7 @@
 from huobi.client.market import *
 import pandas as pd
 import datetime
+import quantlib.bqlog as bq
 
 # 卧槽我吐了断断续续写点这种垃圾代码，每次自己都不记得写了啥然后重新研究日日日日日日日日日
 # 大年初三决定重新写这个函数了，太扯淡了之前的，整个体系都乱了
@@ -12,7 +13,6 @@ import datetime
 
 class KlineCalculate():
     def __init__(self, symbol, period, update_mode=0):
-
         'symbol,period为标的和时间粒度选择,更新模式-0为外部手动更新kline，1为对象自动更新kline'
         self.symbol = symbol
         self.period = period
@@ -74,8 +74,9 @@ class KlineCalculate():
 
         if((list_obj[0].id - self.last_time) == self.sjccy):
             self.last_time = list_obj[0].id
-            self.kline_time.append(self.get_candle(list_obj[1]))    #klinetime型数据更新
-            self.kline_list = self.kline_list.append(               #klinelist型数据更新
+            self.kline_time.append(self.get_candle(
+                list_obj[1]))  # klinetime型数据更新
+            self.kline_list = self.kline_list.append(  # klinelist型数据更新
                 [{'open': list_obj[1].open, 'close':list_obj[1].close, 'low':list_obj[1].low, 'high':list_obj[1].high, 'volume':list_obj[1].vol}])
             print(self.period, 'k线已在', self.last_time, '更新')
             self.tai_update()
@@ -136,6 +137,7 @@ class KlineCalculate():
     def change_all(self):
         '纠错程序'
 
+
 '''
     #def kline_update_15m(self, now_time, symbol):
     #   '15分钟k线向self.kline_time更新一组数据,暂时废弃用于外部比对时间即可'
@@ -150,4 +152,3 @@ class KlineCalculate():
     #         else:
     #             print('果然还是有需要的时候')
 '''
-
