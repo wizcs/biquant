@@ -2,6 +2,6 @@ __pycache__/
 quantlib/__pycache__/
 .vscode/
 quantlib/conf.ini
-test.ipynb
+testpy/
 lowfreq.py
 data_m/
