@@ -1,3 +1,5 @@
+#简单起见直接搞一个自己的日志程序
+
 import logging
 LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
 logging.basicConfig(filename='./data_m/bq.log',

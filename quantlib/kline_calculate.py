@@ -19,11 +19,12 @@ class KlineCalculate():
         self.sjccy = self.timestamp_up()  # 该时间下的时间戳差异
         self.market_c_kc = MarketClient(url="https://api.huobi.be")
         past_list_obj = self.market_c_kc.get_candlestick(symbol, period, 1000)
+        bq.TMD(period + ' kline has download')
         self.kline_time = self.pkd_obj_data(past_list_obj)  # 将初始化对象数据列表化以方便计算
         self.last_time = self.kline_time.pop()[0]  # 弹出倒数第一个kline的id为上一个未经确认的k线
         self.kline_list = self.split_data_to_talib()  # 基础数据转为talib的DataFrame
-        bq.TMD(period+ ' history kline has already read')
         self.tai_cal()
+        bq.TMD(period + ' history kline has already read')
 
     def readconf(self):
         import configparser
@@ -77,8 +78,8 @@ class KlineCalculate():
             self.kline_time.append(self.get_candle(
                 list_obj[1]))  # klinetime型数据更新
             self.kline_list = self.kline_list.append(  # klinelist型数据更新
-                [{'open': list_obj[1].open, 'close':list_obj[1].close, 'low':list_obj[1].low, 'high':list_obj[1].high, 'volume':list_obj[1].vol}])
-            bq.TMD(self.period+' kline has update in '+ str(self.last_time))
+                [{'open': list_obj[1].open, 'close':list_obj[1].close, 'low':list_obj[1].low, 'high':list_obj[1].high, 'volume':list_obj[1].amount}], ignore_index=True)
+            bq.TMD(self.period+' kline has update in ' + str(self.last_time))
             self.tai_update()
         else:
             bq.GTMD('time update wrong!!! '+str(self.sjccy)+'but now is' +
@@ -125,7 +126,7 @@ class KlineCalculate():
             high.append(self.kline_time[i][4])
             volume.append(self.kline_time[i][5])
 
-        kline_data = pd.DataFrame([],index = None)
+        kline_data = pd.DataFrame([])
         kline_data['open'] = open
         kline_data['close'] = close
         kline_data['low'] = low

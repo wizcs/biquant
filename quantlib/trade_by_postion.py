@@ -1,3 +1,4 @@
+#以仓位为核心的下单函数
 
 from huobi.client.trade import *  # 交易相关
 from huobi.client.account import *  # 账户相关
